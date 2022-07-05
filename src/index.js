@@ -33,7 +33,7 @@ export function init() {
   const loader = new GLTFLoader();
   loader.load("models/truck/scene.gltf", function (gltf) {
     const car = gltf.scene.children[0];
-    car.scale.set(0.5, 0.5, 0.5);
+    car.scale.set(1.0, 1.0, 1.0);
     scene.add(gltf.scene);
     animate();
   }, undefined, function (err) {
