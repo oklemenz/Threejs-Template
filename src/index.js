@@ -31,7 +31,7 @@ export function init() {
   controls.enableDamping = true;
 
   const loader = new GLTFLoader();
-  loader.load("models/scene.gltf", function (gltf) {
+  loader.load("models/truck/scene.gltf", function (gltf) {
     const car = gltf.scene.children[0];
     car.scale.set(0.5, 0.5, 0.5);
     scene.add(gltf.scene);
