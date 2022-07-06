@@ -5,6 +5,7 @@ import { RoomEnvironment } from 'https://unpkg.com/three@0.142.0/examples/jsm/en
 import { GLTFLoader } from 'https://unpkg.com/three@0.142.0/examples/jsm/loaders/GLTFLoader.js';
 
 export function init() {
+  const clock = new THREE.Clock();
   const container = document.getElementById("container");
 
   const renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -30,18 +31,33 @@ export function init() {
   controls.enablePan = false;
   controls.enableDamping = true;
 
+  let model;
+  let mixer;
   const loader = new GLTFLoader();
   loader.load("models/truck/scene.gltf", function (gltf) {
-    const car = gltf.scene.children[0];
-    car.scale.set(1.0, 1.0, 1.0);
-    scene.add(gltf.scene);
+    model = gltf.scene.children[0];
+    model.position.set(0.0, -50.0, 0.0);
+    model.scale.set(1.0, 1.0, 1.0);
+    scene.add(model);
+
+    if (gltf.animations && gltf.animations.length > 0) {
+      mixer = new THREE.AnimationMixer(model);
+      mixer.clipAction(gltf.animations[0]).play();
+    }
+
     animate();
   }, undefined, function (err) {
-    console.error(e);
+    console.error(err);
   });
 
   function animate() {
     requestAnimationFrame(animate);
+    const delta = clock.getDelta();
+
+    if (mixer) {
+      mixer.update(delta);
+    }
+
     controls.update();
     renderer.render(scene, camera);
   }
