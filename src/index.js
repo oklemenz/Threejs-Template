@@ -4,6 +4,8 @@ import { OrbitControls } from 'https://unpkg.com/three@0.142.0/examples/jsm/cont
 import { RoomEnvironment } from 'https://unpkg.com/three@0.142.0/examples/jsm/environments/RoomEnvironment.js';
 import { GLTFLoader } from 'https://unpkg.com/three@0.142.0/examples/jsm/loaders/GLTFLoader.js';
 
+const animated = true;
+
 export function init() {
   const clock = new THREE.Clock();
   const container = document.getElementById("container");
@@ -40,7 +42,7 @@ export function init() {
     model.scale.set(1.0, 1.0, 1.0);
     scene.add(model);
 
-    if (gltf.animations && gltf.animations.length > 0) {
+    if (animated && gltf.animations && gltf.animations.length > 0) {
       mixer = new THREE.AnimationMixer(model);
       mixer.clipAction(gltf.animations[0]).play();
     }
